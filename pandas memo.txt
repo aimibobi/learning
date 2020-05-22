@@ -1,0 +1,84 @@
+pandas memo
+
+import pandas as pd
+import numpy as np
+
+#读取数据csv
+hbueman = pd.DataFrame(pd.read_csv('hbueman.csv'))
+
+#写入数据csv
+hbueman.to_csv('hbueman.csv', index=False, encoding='utf-8')
+
+#读取数据excel
+hbueman = pd.DataFrame(pd.read_excel('hbueman.xls'))
+
+#写入数据excel
+hbueman.to_csv('hbueman.csv', index=False, sep=',')
+
+#数据大小
+hbueman.shape
+
+#表数据类型
+hbueman.dtypes
+
+#前十个数据
+hbueman.head(10)
+
+#设置索引为‘序号’
+hbueman.set_index(['序号'])
+
+#以‘序号’列值排序
+hbueman.sort_values(by='序号',ascending=False)
+
+#标记重复数据
+flag = hbueman.duplicated()
+
+#打印‘序号’列重复的数据
+dup = hbueman.duplicated(subset='序号')
+dup = dup[dup]
+print (hbueman.iloc[dup.index])
+
+#删除‘序号’重复的数据，保留第一个数据
+hbueman.drop_duplicates(subset='序号',keep='first')
+
+#删除'姓名','性别','现住详细地址','备注'四个字段重复的数据，保留第一个
+hbueman.drop_duplicates(subset=['姓名','性别','现住详细地址','备注'],keep='first')
+
+#删除age、sex字段为空的数据
+df4.dropna(subset=["age", "sex"])
+
+#判断有空值的数据
+hbueman.isna
+
+#删除至少有4个空值的行
+hbueman.dropna(thresh=4)
+
+#删除name列
+del fr['name']
+
+#列重命名
+hb = hb.rename(columns={'Unnamed: 0':'序号'})
+
+#多列合并
+fr['备注'] = fr['备注'].map(str)+fr['Unnamed: 6'].map(str)
+
+#在第三列的位置插入列'sex',初始值man，
+hb.insert(3,'sex','man')
+
+#加入数据表fr
+hbueren = hbueman.append(fr)
+
+#表连接：查找hbueman\fr表中姓名相同的数据，并向hbueman添加fr的备注列，类似excel的vlookup
+result = pd.merge(hbueman,fr.loc[:,['姓名','备注']],how='left',on = '姓名')
+
+#表连接：以序号为关键字，连接表hbueman和fr
+result = pd.merge(hbueman,fr,on='序号')
+
+#df表中基于a列>2的条件修改 b列值为‘new_data’
+df.loc[df.a>=2,'b'] = 'new_data'
+
+#‘序号’列的值加1
+hb['序号'] = hb['序号']+1
+
+# 在数据框最后加上score一列，元素值分别为：80，98，67，90
+df1['score']=[80,98,67,90]   # 增加列的元素个数要跟原数据列的个数一样
